@@ -26,7 +26,7 @@ debugData([
         items: [
           {
             slot: 1,
-            name: 'iron',
+            name: '鉄',
             weight: 3000,
             metadata: {
               description: `name: Svetozar Miletic  \n Gender: Male`,
@@ -119,8 +119,8 @@ const App: React.FC = () => {
   );
 };
 
-addEventListener("dragstart", function(event) {
-  event.preventDefault()
-})
+addEventListener('dragstart', function (event) {
+  event.preventDefault();
+});
 
 export default App;

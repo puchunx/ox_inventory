@@ -1,6 +1,6 @@
 $mainColor: #22232c;
 $textColor: #c1c2c5;
-$mainFont: Roboto;
+$mainFont: 'Roboto', 'IBM Plex Sans JP';
 
 $secondaryColor: rgba(12, 12, 12, 0.4);
 $secondaryColorHighlight: #33343F;
@@ -326,6 +326,7 @@ button:active {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 2px 3px;
+  line-height: 16px;
   font-weight: 400;
   font-family: $mainFont;
   font-size: 12px;
