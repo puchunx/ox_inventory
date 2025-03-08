@@ -35,18 +35,40 @@ const InventoryControl: React.FC = () => {
     dispatch(setItemAmount(event.target.valueAsNumber));
   };
 
+  const AddButton: React.FC<{ amount: number }> = ({ amount }) => {
+    const addAmount = () => {
+      dispatch(setItemAmount(itemAmount + amount));
+    };
+
+    return (
+      <button className="inventory-control-button" onClick={addAmount}>
+        +{amount}
+      </button>
+    );
+  };
+
   return (
     <>
       <UsefulControls infoVisible={infoVisible} setInfoVisible={setInfoVisible} />
       <div className="inventory-control">
         <div className="inventory-control-wrapper">
-          <input
-            className="inventory-control-input"
-            type="number"
-            defaultValue={itemAmount}
-            onChange={inputHandler}
-            min={0}
-          />
+          <div className="inventory-control-input-wrapper">
+            <input
+              className="inventory-control-input"
+              type="number"
+              value={itemAmount}
+              onChange={inputHandler}
+              min={0}
+            />
+            <div className="inventory-control-button-wrapper">
+              <button className="inventory-control-button" onClick={() => dispatch(setItemAmount(0))}>
+                0
+              </button>
+              {[1, 10, 100].map((value, index) => (
+                <AddButton key={index} amount={value} />
+              ))}
+            </div>
+          </div>
           <button className="inventory-control-button" ref={use}>
             {Locale.ui_use || 'Use'}
           </button>
