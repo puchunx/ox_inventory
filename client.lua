@@ -1323,11 +1323,13 @@ RegisterNetEvent('ox_inventory:setPlayerInventory', function(currentDrops, inven
 		data = {
 			locale = uiLocales,
 			items = ItemData,
+			money = shared.money,
 			leftInventory = {
 				id = cache.playerId,
 				slots = shared.playerslots,
 				items = PlayerData.inventory,
 				maxWeight = shared.playerweight,
+				money = PlayerData.money,
 			},
 			imagepath = client.imagepath
 		}

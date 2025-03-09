@@ -19,7 +19,8 @@ shared = {
     playerweight = GetConvarInt('inventory:weight', 30000),
     target = GetConvarInt('inventory:target', 0) == 1,
     police = json.decode(GetConvar('inventory:police', '["police", "sheriff"]')),
-    networkdumpsters = GetConvarInt('inventory:networkdumpsters', 0) == 1
+    networkdumpsters = GetConvarInt('inventory:networkdumpsters', 0) == 1,
+    money = json.decode(GetConvar('inventory:money', '["cash", "bank"]'))
 }
 
 shared.dropslots = GetConvarInt('inventory:dropslots', shared.playerslots)

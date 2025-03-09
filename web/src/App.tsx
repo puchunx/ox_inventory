@@ -4,6 +4,7 @@ import { Items } from './store/items';
 import { Locale } from './store/locale';
 import { setImagePath } from './store/imagepath';
 import { setupInventory } from './store/inventory';
+import { Money } from './store/money';
 import { Inventory } from './typings';
 import { useAppDispatch } from './store';
 import { debugData } from './utils/debugData';
@@ -96,9 +97,11 @@ const App: React.FC = () => {
     items: typeof Items;
     leftInventory: Inventory;
     imagepath: string;
-  }>('init', ({ locale, items, leftInventory, imagepath }) => {
+    money: string[];
+  }>('init', ({ locale, items, leftInventory, imagepath, money }) => {
     for (const name in locale) Locale[name] = locale[name];
     for (const name in items) Items[name] = items[name];
+    for (const name of money) Money.push(name);
 
     setImagePath(imagepath);
     dispatch(setupInventory({ leftInventory }));
