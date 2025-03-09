@@ -16,6 +16,23 @@ RegisterNetEvent('qbx_core:client:setGroups', function(groups)
     client.setPlayerData('groups', groups)
 end)
 
+RegisterNetEvent('QBCore:Client:OnMoneyChange', function(moneytype, amount, operation)
+    local money = PlayerData.money
+    if operation == 'add' then
+        money[moneytype] = money[moneytype] + amount
+    elseif operation == 'remove' then
+        money[moneytype] = money[moneytype] - amount
+    elseif operation == 'set' then
+        money[moneytype] = amount
+    end
+    client.setPlayerData('money', money)
+
+    SendNUIMessage({
+        action = 'onMoneyChange',
+        data = PlayerData.money
+    })
+end)
+
 ---@diagnostic disable-next-line: duplicate-set-field
 function client.setPlayerStatus(values)
     local playerState = LocalPlayer.state

@@ -62,6 +62,9 @@ export const inventorySlice = createSlice({
 
       container.weight = action.payload;
     },
+    setPlayerMoney: (state, action: PayloadAction<Record<string, number>>) => {
+      state.leftInventory.money = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(isPending, (state) => {
@@ -95,6 +98,7 @@ export const {
   stackSlots,
   refreshSlots,
   setContainerWeight,
+  setPlayerMoney,
 } = inventorySlice.actions;
 export const selectLeftInventory = (state: RootState) => state.inventory.leftInventory;
 export const selectRightInventory = (state: RootState) => state.inventory.rightInventory;

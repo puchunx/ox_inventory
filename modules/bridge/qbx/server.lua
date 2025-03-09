@@ -50,6 +50,7 @@ function server.setPlayerData(player)
         groups = groups,
         sex = player.charinfo.gender,
         dateofbirth = player.charinfo.birthdate,
+        money = player.money,
     }
 end
 

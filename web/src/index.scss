@@ -276,7 +276,7 @@ button:active {
   flex-direction: column;
   gap: calc($gridGap * 2);
 }
-.inventory-grid-header-wrapper {
+.inventory-grid-header-wrapper, .inventory-grid-info-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -285,9 +285,54 @@ button:active {
   }
 }
 
+.inventory-grid-info-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2px;
+  p {
+    font-size: 14px;
+    color: $textColor;
+  }
+}
+
+.inventory-grid-info {
+  display: flex;
+  padding-right: 4px;
+  flex: 1;
+  gap: 2px;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  background-color: $secondaryColor !important;
+  border: 1px inset rgba(0, 0, 0, 0.1);
+  border-radius: 0.25vh;
+}
+
+.inventory-grid-info-label {
+  display: flex;
+  width: 32px;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: $mainColor;
+  fill: $textColor;
+  border-top-left-radius: 0.25vh;
+  border-bottom-left-radius: 0.25vh;
+  border-right-color: rgba(0, 0, 0, 0.2);
+  border-right-style: inset;
+  border-right-width: 1px;
+}
+
 .inventory-grid-container {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   height: $containerSize;
+}
+
+.inventory-grid {
+  display: grid;
   grid-template-columns: repeat($gridCols, $gridSize);
   grid-auto-rows: $gridSize + 0.22vh;
   gap: $gridGap;

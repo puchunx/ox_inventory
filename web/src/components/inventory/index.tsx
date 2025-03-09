@@ -3,7 +3,7 @@ import useNuiEvent from '../../hooks/useNuiEvent';
 import InventoryControl from './InventoryControl';
 import InventoryHotbar from './InventoryHotbar';
 import { useAppDispatch } from '../../store';
-import { refreshSlots, setAdditionalMetadata, setupInventory } from '../../store/inventory';
+import { refreshSlots, setAdditionalMetadata, setupInventory, setPlayerMoney } from '../../store/inventory';
 import { useExitListener } from '../../hooks/useExitListener';
 import type { Inventory as InventoryProps } from '../../typings';
 import RightInventory from './RightInventory';
@@ -38,6 +38,10 @@ const Inventory: React.FC = () => {
 
   useNuiEvent('displayMetadata', (data: Array<{ metadata: string; value: string }>) => {
     dispatch(setAdditionalMetadata(data));
+  });
+
+  useNuiEvent('onMoneyChange', (data: Record<string, number>) => {
+    dispatch(setPlayerMoney(data));
   });
 
   return (

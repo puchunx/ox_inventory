@@ -274,6 +274,7 @@ function client.openInventory(inv, data)
     currentInventory = right or defaultInventory
     left.items = PlayerData.inventory
     left.groups = PlayerData.groups
+		left.money = PlayerData.money
 
     SendNUIMessage({
         action = 'setupInventory',
@@ -332,6 +333,7 @@ RegisterNetEvent('ox_inventory:forceOpenInventory', function(left, right)
 	currentInventory.ignoreSecurityChecks = true
 	left.items = PlayerData.inventory
 	left.groups = PlayerData.groups
+	left.money = PlayerData.money
 
 	SendNUIMessage({
 		action = 'setupInventory',
@@ -1579,6 +1581,7 @@ RegisterNetEvent('ox_inventory:viewInventory', function(left, right)
     currentInventory.type = 'inspect'
 	left.items = PlayerData.inventory
 	left.groups = PlayerData.groups
+	left.money = PlayerData.money
 
 	SendNUIMessage({
 		action = 'setupInventory',
