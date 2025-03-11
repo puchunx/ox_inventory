@@ -136,6 +136,16 @@ button:active {
 .inventory-control {
   display: flex;
 
+  .inventory-control-logo-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .inventory-control-logo {
+    max-width: 180px;
+  }
+
   .inventory-control-wrapper {
     display: flex;
     flex-direction: column;

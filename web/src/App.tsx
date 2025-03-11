@@ -15,6 +15,7 @@ import KeyPress from './components/utils/KeyPress';
 import { useEffect } from 'react';
 import { setColors } from './store/colors';
 import { setAllowCustomize } from './store/allowCustomize';
+import { setLogo } from './store/logo';
 
 debugData([
   {
@@ -112,12 +113,14 @@ const App: React.FC = () => {
     money: string[];
     customize: boolean;
     colors?: Partial<Colors>;
-  }>('init', ({ locale, items, leftInventory, imagepath, money, customize, colors }) => {
+    logo?: string;
+  }>('init', ({ locale, items, leftInventory, imagepath, money, customize, colors, logo }) => {
     for (const name in locale) Locale[name] = locale[name];
     for (const name in items) Items[name] = items[name];
     for (const name of money) Money.push(name);
 
     setImagePath(imagepath);
+    setLogo(logo || '');
     setAllowCustomize(customize);
     if (customize) {
       dispatch(setColors(colors || {}));

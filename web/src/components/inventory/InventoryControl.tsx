@@ -10,6 +10,7 @@ import { Locale } from '../../store/locale';
 import { AllowCustomize } from '../../store/allowCustomize';
 import UsefulControls from './UsefulControls';
 import ColorSettings from './ColorSettings';
+import { Logo } from '../../store/logo';
 
 const InventoryControl: React.FC = () => {
   const itemAmount = useAppSelector(selectItemAmount);
@@ -56,6 +57,11 @@ const InventoryControl: React.FC = () => {
       <UsefulControls visible={controlsVisible} setVisible={setControlsVisible} />
       <div className="inventory-control">
         <div className="inventory-control-wrapper">
+          {Logo && (
+            <div className="inventory-control-logo-wrapper">
+              <img className="inventory-control-logo" src={Logo} />
+            </div>
+          )}
           <div className="inventory-control-input-wrapper">
             <input
               className="inventory-control-input"
