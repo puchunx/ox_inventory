@@ -5,13 +5,15 @@ import { Locale } from './store/locale';
 import { setImagePath } from './store/imagepath';
 import { setupInventory } from './store/inventory';
 import { Money } from './store/money';
-import { Inventory } from './typings';
-import { useAppDispatch } from './store';
+import { Colors, Inventory } from './typings';
+import { useAppDispatch, useAppSelector } from './store';
 import { debugData } from './utils/debugData';
 import DragPreview from './components/utils/DragPreview';
 import { fetchNui } from './utils/fetchNui';
 import { useDragDropManager } from 'react-dnd';
 import KeyPress from './components/utils/KeyPress';
+import { useEffect } from 'react';
+import { setColors } from './store/colors';
 
 debugData([
   {
@@ -92,18 +94,29 @@ const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const manager = useDragDropManager();
 
+  const { mainColor, textColor, secondaryColor, secondaryColorDark } = useAppSelector((state) => state.colors);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--main-color', mainColor);
+    document.documentElement.style.setProperty('--text-color', textColor);
+    document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+    document.documentElement.style.setProperty('--secondary-color-dark', secondaryColorDark);
+  }, [mainColor, textColor, secondaryColor, secondaryColorDark]);
+
   useNuiEvent<{
     locale: { [key: string]: string };
     items: typeof Items;
     leftInventory: Inventory;
     imagepath: string;
     money: string[];
-  }>('init', ({ locale, items, leftInventory, imagepath, money }) => {
+    colors?: Partial<Colors>;
+  }>('init', ({ locale, items, leftInventory, imagepath, money, colors }) => {
     for (const name in locale) Locale[name] = locale[name];
     for (const name in items) Items[name] = items[name];
     for (const name of money) Money.push(name);
 
     setImagePath(imagepath);
+    dispatch(setColors(colors || {}));
     dispatch(setupInventory({ leftInventory }));
   });
 

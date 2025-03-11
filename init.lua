@@ -110,6 +110,9 @@ else
     ignoreweapons[`WEAPON_HOSE`] = true
 
     client.ignoreweapons = ignoreweapons
+
+    local colors = GetResourceKvpString('inventoryColors')
+    client.colors = colors and json.decode(colors) or nil
 end
 
 function shared.print(...) print(string.strjoin(' ', ...)) end

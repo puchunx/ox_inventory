@@ -1331,7 +1331,8 @@ RegisterNetEvent('ox_inventory:setPlayerInventory', function(currentDrops, inven
 				maxWeight = shared.playerweight,
 				money = PlayerData.money,
 			},
-			imagepath = client.imagepath
+			imagepath = client.imagepath,
+			colors = client.colors,
 		}
 	})
 
@@ -1899,6 +1900,11 @@ RegisterNUICallback('craftItem', function(data, cb)
 	if not currentInventory or currentInventory.type ~= 'crafting' then
 		client.openInventory('crafting', { id = id, index = index })
 	end
+end)
+
+RegisterNUICallback('saveColors', function(data, cb)
+  SetResourceKvp('inventoryColors', json.encode(data))
+	cb(1)
 end)
 
 lib.callback.register('ox_inventory:getVehicleData', function(netid)

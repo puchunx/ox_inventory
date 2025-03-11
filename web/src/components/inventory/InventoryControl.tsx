@@ -8,12 +8,14 @@ import { onGive } from '../../dnd/onGive';
 import { fetchNui } from '../../utils/fetchNui';
 import { Locale } from '../../store/locale';
 import UsefulControls from './UsefulControls';
+import ColorSettings from './ColorSettings';
 
 const InventoryControl: React.FC = () => {
   const itemAmount = useAppSelector(selectItemAmount);
   const dispatch = useAppDispatch();
 
-  const [infoVisible, setInfoVisible] = useState(false);
+  const [controlsVisible, setControlsVisible] = useState(false);
+  const [settingsVisible, setSettingsVisible] = useState(false);
 
   const [, use] = useDrop<DragSource, void, any>(() => ({
     accept: 'SLOT',
@@ -49,7 +51,8 @@ const InventoryControl: React.FC = () => {
 
   return (
     <>
-      <UsefulControls infoVisible={infoVisible} setInfoVisible={setInfoVisible} />
+      <ColorSettings visible={settingsVisible} setVisible={setSettingsVisible} />
+      <UsefulControls visible={controlsVisible} setVisible={setControlsVisible} />
       <div className="inventory-control">
         <div className="inventory-control-wrapper">
           <div className="inventory-control-input-wrapper">
@@ -81,11 +84,18 @@ const InventoryControl: React.FC = () => {
         </div>
       </div>
 
-      <button className="useful-controls-button" onClick={() => setInfoVisible(true)}>
-        <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 524 524">
-          <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
-        </svg>
-      </button>
+      <div className="action-button-wrapper">
+        <button className="action-button" onClick={() => setSettingsVisible(true)}>
+          <svg xmlns="http://www.w3.org/2000/svg" height="1.6rem" viewBox="0 0 384 512">
+            <path d="M162.4 6c-1.5-3.6-5-6-8.9-6l-19 0c-3.9 0-7.5 2.4-8.9 6L104.9 57.7c-3.2 8-14.6 8-17.8 0L66.4 6c-1.5-3.6-5-6-8.9-6L48 0C21.5 0 0 21.5 0 48L0 224l0 22.4L0 256l9.6 0 364.8 0 9.6 0 0-9.6 0-22.4 0-176c0-26.5-21.5-48-48-48L230.5 0c-3.9 0-7.5 2.4-8.9 6L200.9 57.7c-3.2 8-14.6 8-17.8 0L162.4 6zM0 288l0 32c0 35.3 28.7 64 64 64l64 0 0 64c0 35.3 28.7 64 64 64s64-28.7 64-64l0-64 64 0c35.3 0 64-28.7 64-64l0-32L0 288zM192 432a16 16 0 1 1 0 32 16 16 0 1 1 0-32z" />
+          </svg>
+        </button>
+        <button className="action-button" onClick={() => setControlsVisible(true)}>
+          <svg xmlns="http://www.w3.org/2000/svg" height="1.6rem" viewBox="0 0 524 524">
+            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
+          </svg>
+        </button>
+      </div>
     </>
   );
 };
