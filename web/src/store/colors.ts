@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ColorLabel, Colors } from '../typings';
 import tinycolor from 'tinycolor2';
-import { RootState } from '.';
 
 const initialState: Colors = {
   mainColor: '#22232c',

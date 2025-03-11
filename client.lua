@@ -1332,6 +1332,7 @@ RegisterNetEvent('ox_inventory:setPlayerInventory', function(currentDrops, inven
 				money = PlayerData.money,
 			},
 			imagepath = client.imagepath,
+			customize = client.customize,
 			colors = client.colors,
 		}
 	})

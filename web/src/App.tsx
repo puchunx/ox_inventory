@@ -14,6 +14,7 @@ import { useDragDropManager } from 'react-dnd';
 import KeyPress from './components/utils/KeyPress';
 import { useEffect } from 'react';
 import { setColors } from './store/colors';
+import { setAllowCustomize } from './store/allowCustomize';
 
 debugData([
   {
@@ -109,14 +110,18 @@ const App: React.FC = () => {
     leftInventory: Inventory;
     imagepath: string;
     money: string[];
+    customize: boolean;
     colors?: Partial<Colors>;
-  }>('init', ({ locale, items, leftInventory, imagepath, money, colors }) => {
+  }>('init', ({ locale, items, leftInventory, imagepath, money, customize, colors }) => {
     for (const name in locale) Locale[name] = locale[name];
     for (const name in items) Items[name] = items[name];
     for (const name of money) Money.push(name);
 
     setImagePath(imagepath);
-    dispatch(setColors(colors || {}));
+    setAllowCustomize(customize);
+    if (customize) {
+      dispatch(setColors(colors || {}));
+    }
     dispatch(setupInventory({ leftInventory }));
   });
 
