@@ -328,15 +328,15 @@ button:active {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.inventory-grid-header-wrapper {
   p {
     font-size: 16px;
   }
 }
 
 .inventory-grid-info-wrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   gap: 2px;
   p {
     font-size: 14px;
