@@ -38,12 +38,18 @@ function server.setPlayerData(player)
 		[player.job.name] = player.job.grade
 	}
 
+	local money = {}
+	for _, account in ipairs(player.accounts) do
+		money[account.name] = account.money
+	end
+
 	return {
 		source = player.source,
 		name = player.name,
 		groups = groups,
 		sex = player.sex or player.variables.sex,
 		dateofbirth = player.dateofbirth or player.variables.dateofbirth,
+		money = money,
 	}
 end
 

@@ -18,7 +18,7 @@ const InventoryInfo: React.FC<Props> = ({ moneytype, value }) => {
   const timerRef = useRef<number | null>(null);
 
   const InfoLabel = (moneytype: string) => {
-    if (moneytype === 'cash') {
+    if (moneytype === 'cash' || moneytype === 'money') {
       return <CashIcon />;
     } else if (moneytype === 'bank') {
       return <BankIcon />;
