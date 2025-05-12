@@ -18,6 +18,8 @@ end)
 
 RegisterNetEvent('QBCore:Client:OnMoneyChange', function(moneytype, amount, operation)
     local money = PlayerData.money
+    if not money then return end
+
     if operation == 'add' then
         money[moneytype] = money[moneytype] + amount
     elseif operation == 'remove' then
