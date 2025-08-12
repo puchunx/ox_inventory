@@ -113,6 +113,9 @@ else
 
     client.ignoreweapons = ignoreweapons
 
+    local colors = GetResourceKvpString('inventoryColors')
+    client.colors = colors and json.decode(colors) or nil
+
     local fallbackmarker = {
         type = 0,
         colour = { 150, 150, 150 },
