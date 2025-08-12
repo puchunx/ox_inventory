@@ -25,17 +25,10 @@ jobs:
         with:
           version: 9
 
-      - name: Get variables
-        id: get_vars
-        run: |
-          echo '::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)'
-          echo '::set-output name=DATE::$(date +'%D')'
-
       - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: 18.x
-          cache: "pnpm"
           cache-dependency-path: "web/pnpm-lock.yaml"
 
       - name: Install dependencies
@@ -63,7 +56,7 @@ jobs:
           message: "chore: bump manifest version to ${{ github.ref_name }}"
 
       - name: Update tag ref
-        uses: EndBug/latest-tag@latest
+        uses: EndBug/latest-tag@v1.4.0
         with:
           tag-name: ${{ github.ref_name }}
 
