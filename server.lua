@@ -6,7 +6,7 @@ require 'modules.shops.server'
 require 'modules.pefcl.server'
 
 if GetConvar('inventory:versioncheck', 'true') == 'true' then
-	lib.versionCheck('overextended/ox_inventory')
+	lib.versionCheck('communityox/ox_inventory')
 end
 
 local TriggerEventHooks = require 'modules.hooks.server'
@@ -290,10 +290,18 @@ lib.callback.register('ox_inventory:openInventory', function(source, invType, da
     if invType == 'player' and source ~= data then
         local serverId = type(data) == 'table' and data.id or data
 
-        if source == serverId or type(serverId) ~= 'number' or not Player(serverId).state.canSteal then return end
+        if source == serverId or type(serverId) ~= 'number' then return end
+
+        local left = Inventory(source)
+        if not left then return end
+
+        local isPolice = server.hasGroup(left, shared.police)
+        local isTargetStealable = Player(serverId).state.canSteal
+
+        if not isPolice and not isTargetStealable then return end
     end
 
-	return openInventory(source, invType, data)
+    return openInventory(source, invType, data)
 end)
 
 ---@param netId number
@@ -373,9 +381,9 @@ end)
 ---@param metadata { [string]: any }?
 ---@return table | boolean | nil
 lib.callback.register('ox_inventory:useItem', function(source, itemName, slot, metadata, noAnim)
-	local inventory = Inventory(source) --[[@as OxInventory]]
+	local inventory = Inventory(source)
 
-	if inventory.player then
+	if inventory and inventory.player then
 		local item = Items(itemName)
 		local data = item and (slot and inventory.items[slot] or Inventory.GetSlotWithItem(inventory, item.name, metadata, true))
 
@@ -561,7 +569,8 @@ lib.addCommand({'additem', 'giveitem'}, {
 
 	if item then
 		local inventory = Inventory(args.target) --[[@as OxInventory]]
-		local count = args.count or 1
+		local count = args.count and math.max(args.count, 1) or 1
+
 		local success, response = Inventory.AddItem(inventory, item.name, count, args.type and { type = tonumber(args.type) or args.type })
 
 		if not success then
@@ -581,25 +590,27 @@ lib.addCommand('removeitem', {
 	params = {
 		{ name = 'target', type = 'playerId', help = 'The player to remove the item from' },
 		{ name = 'item', type = 'string', help = 'The name of the item' },
-		{ name = 'count', type = 'number', help = 'The amount of the item to take' },
+		{ name = 'count', type = 'number', help = 'The amount of the item to take', optional = true },
 		{ name = 'type', help = 'Only remove items with a matching metadata "type"', optional = true },
 	},
 	restricted = 'group.admin',
 }, function(source, args)
 	local item = Items(args.item)
 
-	if item and args.count > 0 then
+	if item then
 		local inventory = Inventory(args.target) --[[@as OxInventory]]
-		local success, response = Inventory.RemoveItem(inventory, item.name, args.count, args.type and { type = tonumber(args.type) or args.type }, nil, true)
+		local count = args.count and math.max(args.count, 1) or 1
+
+		local success, response = Inventory.RemoveItem(inventory, item.name, count, args.type and { type = tonumber(args.type) or args.type }, nil, true)
 
 		if not success then
-			return Citizen.Trace(('Failed to remove %sx %s from player %s (%s)'):format(args.count, item.name, args.target, response))
+			return Citizen.Trace(('Failed to remove %sx %s from player %s (%s)'):format(count, item.name, args.target, response))
 		end
 
 		source = Inventory(source) or {label = 'console', owner = 'console'}
 
 		if server.loglevel > 0 then
-			lib.logger(source.owner, 'admin', ('"%s" removed %sx %s from "%s"'):format(source.label, args.count, item.name, inventory.label))
+			lib.logger(source.owner, 'admin', ('"%s" removed %sx %s from "%s"'):format(source.label, count, item.name, inventory.label))
 		end
 	end
 end)
@@ -618,16 +629,18 @@ lib.addCommand('setitem', {
 
 	if item then
 		local inventory = Inventory(args.target) --[[@as OxInventory]]
-		local success, response = Inventory.SetItem(inventory, item.name, args.count or 0, args.type and { type = tonumber(args.type) or args.type })
+		local count = args.count and math.max(args.count, 0) or 0
+
+		local success, response = Inventory.SetItem(inventory, item.name, count or 0, args.type and { type = tonumber(args.type) or args.type })
 
 		if not success then
-			return Citizen.Trace(('Failed to set %s count to %sx for player %s (%s)'):format(item.name, args.count, args.target, response))
+			return Citizen.Trace(('Failed to set %s count to %sx for player %s (%s)'):format(item.name, count, args.target, response))
 		end
 
 		source = Inventory(source) or {label = 'console', owner = 'console'}
 
 		if server.loglevel > 0 then
-			lib.logger(source.owner, 'admin', ('"%s" set "%s" %s count to %sx'):format(source.label, inventory.label, item.name, args.count))
+			lib.logger(source.owner, 'admin', ('"%s" set "%s" %s count to %sx'):format(source.label, inventory.label, item.name, count))
 		end
 	end
 end)
@@ -641,6 +654,8 @@ lib.addCommand('clearevidence', {
 	if not server.isPlayerBoss then return end
 
 	local inventory = Inventory(source)
+	if not inventory then return end
+
 	local group, grade = server.hasGroup(inventory, shared.police)
 	local hasPermission = group and server.isPlayerBoss(source, group, grade)
 
