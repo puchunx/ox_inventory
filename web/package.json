@@ -5,8 +5,6 @@
   "private": true,
   "dependencies": {
     "@floating-ui/react": "^0.25.4",
-    "@mantine/core": "^6.0.22",
-    "@mantine/hooks": "^6.0.22",
     "@types/lodash": "^4.17.1",
     "@types/node": "^18.19.33",
     "@types/react": "^18.3.1",
